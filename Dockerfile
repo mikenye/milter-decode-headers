@@ -31,3 +31,8 @@ RUN set -x && \
     apt-get clean -y && \
     rm -rf /src /tmp/* /var/lib/apt/lists/* && \
     find /var/log -type f -iname "*log" -exec truncate --size 0 {} \;    
+
+ENTRYPOINT [ "/usr/bin/python3" ]
+CMD [ "/decode-headers.py" ]
+
+EXPOSE 8899/tcp
