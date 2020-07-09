@@ -28,7 +28,7 @@ class DecodeHeaders(Milter.Base):
             x = decode_header(hval)
             if x[0][1]:
                 try:
-                    syslog.syslog("[%s] decoding header %s" % (self.id, name))
+                    #syslog.syslog("[%s] decoding header %s" % (self.id, name))
                     new_header = "X-Decoded-%s" % (name)
                     self.headers.append((new_header, x[0][0].decode(x[0][1])))
                     new_header = "X-Decoded-%s-Encoding" % (name)
@@ -39,8 +39,9 @@ class DecodeHeaders(Milter.Base):
         return Milter.CONTINUE
 
     def eom(self):
-        
+
         for x in self.headers:
+            syslog.syslog("[%s] %s: decoded header '%s'" % (self.id, self.message_id, name))
             try:
                 self.addheader(x[0], x[1])
             except Exception as e:
