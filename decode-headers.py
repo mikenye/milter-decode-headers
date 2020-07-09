@@ -11,16 +11,16 @@ class DecodeHeaders(Milter.Base):
         self.id = Milter.uniqueID()  # Integer incremented with each call.
 
     def connect(self, IPname, family, hostaddr):
-        self.log("connect from %s at %s" % (IPname, hostaddr))
+        syslog.syslog("connect from %s at %s" % (IPname, hostaddr))
         self.headers = list()
         return Milter.CONTINUE
 
     def header(self, name, hval):
-        print("----")
-        print(type(name))
-        print(name)
-        print(type(hval))
-        print("hval")
+        syslog.syslog("----")
+        syslog.syslog(type(name))
+        syslog.syslog(name)
+        syslog.syslog(type(hval))
+        syslog.syslog("hval")
         return Milter.CONTINUE
 
 def main():
