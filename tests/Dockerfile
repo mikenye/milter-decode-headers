@@ -27,5 +27,4 @@ RUN set -x && \
     echo "localdelivery: /output/mail" > /etc/postfix/local_aliases/aliases && \
     useradd --system --no-create-home localdelivery
 
-# CMD [ "/run_tests.sh" ]
-CMD [ "bash" ]
+CMD [ "/run_tests.sh" ]

@@ -61,7 +61,7 @@ expect "3?? *" {
 
 send "From: $fromemail\r"
 send "To: $toemail\r"
-send "Subject: =?UTF-8?B?VGhpcyBpcyBhIHV0Zi04IGJhc2U2NCBlbmNvZGVkIHN1YmplY3Q=\r"
+send "Subject: =?UTF-8?B?VGhpcyBpcyBhIHV0Zi04IGJhc2U2NCBlbmNvZGVkIHN1YmplY3Q?=\r"
 send "\r"
 send "This is a test message\r"
 send ".\r"
