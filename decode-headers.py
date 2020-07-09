@@ -17,10 +17,10 @@ class DecodeHeaders(Milter.Base):
 
     def header(self, name, hval):
         syslog.syslog("----")
-        syslog.syslog(type(name))
+        syslog.syslog(repr(type(name)))
         syslog.syslog(name)
-        syslog.syslog(type(hval))
-        syslog.syslog("hval")
+        syslog.syslog(repr(type(hval))
+        syslog.syslog(hval)
         return Milter.CONTINUE
 
 def main():
