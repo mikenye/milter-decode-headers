@@ -23,13 +23,22 @@ class DecodeHeaders(Milter.Base):
                 try:
                     syslog.syslog("decoding header %s" % (name))
                     new_header = "X-Decoded-%s" % (name)
-                    self.addheader(new_header, x[0][0].decode(x[0][1]))
+                    self.headers.append((new_header, x[0][0].decode(x[0][1])))
                     new_header = "X-Decoded-%s-Encoding" % (name)
-                    self.addheader(new_header, x[0][1])
+                    self.headers.append((new_header, x[0][1]))
                 except Exception as e:
                     syslog.syslog('Error: %s' % (e))
 
         return Milter.CONTINUE
+
+    def eom(self):
+        for x in self.headers:
+            try:
+                self.addheader(x[0], x[1])
+            except Exception as e:
+                    syslog.syslog('Error: %s' % (e))
+        
+        return Milter.ACCEPT
 
 def main():
     # todo: use argparse
