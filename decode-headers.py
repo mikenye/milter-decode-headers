@@ -19,7 +19,7 @@ class DecodeHeaders(Milter.Base):
 
         if name in ('From', 'Subject'):
             syslog.syslog("decoding header %s" % (name))
-            x = decode_header('hval')
+            x = decode_header(hval)
             syslog.syslog("header decoded")
             new_header = "X-Decoded-%s" % (name)
             syslog.syslog("decoded header created")
