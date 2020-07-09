@@ -48,6 +48,9 @@ class DecodeHeaders(Milter.Base):
         return Milter.ACCEPT
 
 def main():
+
+    syslog.openlog(logoption=syslog.LOG_PID, facility=syslog.LOG_MAIL)
+
     # todo: use argparse
     # todo: better logging to stdout
     socketname = "inet:8899@127.0.0.1"
