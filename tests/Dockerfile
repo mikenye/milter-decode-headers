@@ -21,7 +21,7 @@ RUN set -x && \
         && \
     pip3 install pymilter && \
     mkdir -p /etc/postfix/local_aliases && \
-    echo "localdelivery /output/mail" > /etc/postfix/local_aliases/aliases && \
+    echo "localdelivery: /output/mail" > /etc/postfix/local_aliases/aliases && \
     echo "smtpd_milters = inet:127.0.0.1:8899" >> /etc/postfix/main.cf && \
     echo "mydestination = localdomain" >> /etc/postfix/main.cf && \
     useradd --system --no-create-home localdelivery
