@@ -39,6 +39,7 @@ class DecodeHeaders(Milter.Base):
         return Milter.CONTINUE
 
     def eom(self):
+        
         for x in self.headers:
             try:
                 self.addheader(x[0], x[1])
