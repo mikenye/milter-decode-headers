@@ -24,8 +24,6 @@ RUN set -x && \
     mkdir -p /output && \
     chmod a+w /output && \
     echo "localdelivery: /output/mail" > /etc/postfix/local_aliases/aliases && \
-    echo "smtpd_milters = inet:127.0.0.1:8899" >> /etc/postfix/main.cf && \
-    echo "mydestination = testserver" >> /etc/postfix/main.cf && \
     useradd --system --no-create-home localdelivery
 
 # CMD [ "/run_tests.sh" ]
