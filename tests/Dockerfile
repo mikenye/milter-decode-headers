@@ -16,6 +16,7 @@ RUN set -x && \
         python3-pip \
         python3-setuptools \
         python3-wheel \
+        telnet \
         && \
     pip3 install pymilter && \
     mkdir -p /output && \
