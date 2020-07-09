@@ -5,6 +5,8 @@ LIGHTGREEN='\033[1;32m'
 LIGHTRED='\033[1;31m'
 NOCOLOR='\033[0m'
 
+EXITCODE=0
+
 echo "Waiting for postfix to become ready..."
 sleep 10
 
@@ -23,6 +25,7 @@ if [ "$?" -eq "0" ]; then
     echo -e "${LIGHTGREEN}PASSED normal email${NOCOLOR}"
 else
     echo -e "${LIGHTRED}FAILED normal email${NOCOLOR}"
+    EXITCODE=1
 fi
 rm /output/mail
 
@@ -35,10 +38,10 @@ if [ "$?" -eq "0" ]; then
     echo -e "${LIGHTGREEN}PASSED encoded email${NOCOLOR}"
 else
     echo -e "${LIGHTRED}FAILED encoded email${NOCOLOR}"
+    EXITCODE=1
 fi
 
-cat /output/mail 
 sleep 10
 
 echo "Finished"
-exit 0
+exit $EXITCODE
