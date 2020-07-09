@@ -6,7 +6,7 @@ docker build -t milter-decode-headers -f tests/Dockerfile .
 docker run \
     --rm \
     --name milter-decode-headers \
-    -d \
+    -it \
     -e POSTMASTER_EMAIL=postmaster@localdomain \
     -e POSTFIX_INET_PROTOCOLS=ipv4 \
     -e POSTFIX_MYDOMAIN=localdomain \
