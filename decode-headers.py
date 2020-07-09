@@ -41,8 +41,8 @@ class DecodeHeaders(Milter.Base):
     def eom(self):
 
         for x in self.headers:
-            syslog.syslog("[%s] %s: decoded header '%s'" % (self.id, self.message_id, name))
             try:
+                syslog.syslog("[%s] %s: decoded header '%s'" % (self.id, self.message_id, name))
                 self.addheader(x[0], x[1])
             except Exception as e:
                     syslog.syslog('[%s] error with message_id %s: %s' % (self.id, self.message_id, e))
