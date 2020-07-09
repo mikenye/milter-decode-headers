@@ -3,6 +3,7 @@ FROM mikenye/postfix
 COPY decode-headers.py /decode-headers.py
 COPY tests/test_milter_normal.expect /test_milter_normal.expect
 COPY tests/run_tests.sh /run_tests.sh
+COPY tests/milter_service_run /etc/services.d/decode-headers/run
 
 RUN set -x && \
     apt-get update && \
@@ -19,10 +20,11 @@ RUN set -x && \
         telnet \
         && \
     pip3 install pymilter && \
-    mkdir -p /output && \
     mkdir -p /etc/postfix/local_aliases && \
     echo "localdelivery /output/mail" > /etc/postfix/local_aliases/aliases && \
-    echo "smtpd_milters = inet:127.0.0.1:8899" >> /etc/postfix/main.cf
+    echo "smtpd_milters = inet:127.0.0.1:8899" >> /etc/postfix/main.cf && \
+    echo "mydestination = localdomain" >> /etc/postfix/main.cf && \
+    useradd --system --no-create-home localdelivery
 
 # CMD [ "/run_tests.sh" ]
 CMD [ "bash" ]

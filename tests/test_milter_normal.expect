@@ -6,8 +6,6 @@ set mailport [lindex $argv 1]
 set helohost [lindex $argv 2]
 set fromemail [lindex $argv 3]
 set toemail [lindex $argv 4]
-set now [clock seconds]
-set date [clock format $now -format {%Y-%m-%d %H:%M:%S}]
 
 send_user "\n\n"
 spawn telnet $mailserver $mailport
@@ -64,8 +62,8 @@ expect "3?? *" {
 send "From: $fromemail\r"
 send "To: $toemail\r"
 send "\r"
-send "Subject: Test email sent at $date\r"
-send "This is a test message set at date $date\r"
+send "Subject: Test email normal\r"
+send "This is a test message\r"
 send ".\r"
 expect "2?? *" {
 } "5?? *" {
