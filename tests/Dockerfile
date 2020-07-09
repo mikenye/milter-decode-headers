@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM mikenye/postfix
 
 COPY decode-headers.py /decode-headers.py
 
