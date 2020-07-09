@@ -4,7 +4,7 @@
 echo "Waiting for postfix to become ready..."
 sleep 10
 
-/test_milter_normal.expect 127.0.0.1 25 test nobody@nowhere localdelivery@localdomain
+/test_milter_normal.expect 127.0.0.1 25 test nobody@nowhere localdelivery@testserver
 sleep 10
 
 ls -lah /output

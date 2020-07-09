@@ -7,9 +7,9 @@ docker run \
     --rm \
     --name milter-decode-headers \
     -it \
-    -e POSTMASTER_EMAIL=postmaster@localdomain \
+    -e POSTMASTER_EMAIL=postmaster@testserver \
     -e POSTFIX_INET_PROTOCOLS=ipv4 \
-    -e POSTFIX_MYDOMAIN=localdomain \
+    -e POSTFIX_MYHOSTNAME=testserver \
     -e POSTFIX_REJECT_INVALID_HELO_HOSTNAME=false \
     -e POSTFIX_REJECT_NON_FQDN_HELO_HOSTNAME=false \
     -e POSTFIX_REJECT_UNKNOWN_HELO_HOSTNAME=false \
