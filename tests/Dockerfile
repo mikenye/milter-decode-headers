@@ -2,6 +2,7 @@ FROM mikenye/postfix
 
 COPY decode-headers.py /decode-headers.py
 COPY tests/test_milter_normal.expect /test_milter_normal.expect
+COPY tests/test_milter_encoded.expect /test_milter_encoded.expect
 COPY tests/run_tests.sh /run_tests.sh
 COPY tests/milter_service_run /etc/services.d/decode-headers/run
 

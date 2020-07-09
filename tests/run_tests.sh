@@ -14,7 +14,10 @@ sleep 5
 /test_milter_normal.expect 127.0.0.1 25 test nobody@nowhere localdelivery@testserver
 sleep 10
 
-ls -lah /output
+# Send test email with subject encoding
+/test_milter_encoded.expect 127.0.0.1 25 test nobody@nowhere localdelivery@testserver
+sleep 10
+
 cat /output/mail
 sleep 10
 
