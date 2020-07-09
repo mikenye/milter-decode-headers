@@ -4,8 +4,6 @@ COPY decode-headers.py /decode-headers.py
 COPY tests/test_milter_normal.expect /test_milter_normal.expect
 COPY tests/run_tests.sh /run_tests.sh
 
-ENV S6_CMD_WAIT_FOR_SERVICES=1
-
 RUN set -x && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
