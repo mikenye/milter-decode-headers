@@ -20,16 +20,17 @@ class DecodeHeaders(Milter.Base):
         if name in ('From', 'Subject'):
             syslog.syslog("decoding header %s" % (name))
             x = decode_header(hval)
-            syslog.syslog("header decoded")
-            new_header = "X-Decoded-%s" % (name)
-            syslog.syslog("decoded header created")
-            syslog.syslog(repr(x))
-            self.addheader(new_header, x[0][0])
-            syslog.syslog("decoded header written")
-            new_header = "X-Decoded-%s-Encoding" % (name)
-            syslog.syslog("decoded encoded header created")
-            self.addheader(new_header, x[0][1])
-            syslog.syslog("decoded encoded header written")
+            if x[0][1]:
+                syslog.syslog("header decoded")
+                new_header = "X-Decoded-%s" % (name)
+                syslog.syslog("decoded header created")
+                syslog.syslog(repr(x))
+                self.addheader(new_header, x[0][0])
+                syslog.syslog("decoded header written")
+                new_header = "X-Decoded-%s-Encoding" % (name)
+                syslog.syslog("decoded encoded header created")
+                self.addheader(new_header, x[0][1])
+                syslog.syslog("decoded encoded header written")
 
         return Milter.CONTINUE
 
