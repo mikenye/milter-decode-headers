@@ -1,10 +1,12 @@
 FROM mikenye/postfix
 
 COPY decode-headers.py /decode-headers.py
+COPY tests/test_milter_normal.expect /test_milter_normal.expect
 
 RUN set -x && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
+        expect \
         gcc \
         libmilter-dev \
         libmilter1.0.1 \
@@ -14,4 +16,7 @@ RUN set -x && \
         python3-setuptools \
         python3-wheel \
         && \
-    pip3 install pymilter
+    pip3 install pymilter && \
+    mkdir -p /output && \
+    mkdir -p /etc/postfix/local_aliases && \
+    echo "localdelivery /output/mail" > /etc/postfix/local_aliases/aliases
