@@ -57,7 +57,7 @@ def main():
     timeout = 600
 
     Milter.factory = DecodeHeaders
-    #Milter.set_flags(Milter.ADDHDRS)
+    Milter.set_flags(Milter.ADDHDRS)
 
     syslog.syslog("decodeheaders startup")
     Milter.runmilter("decodeheaders",socketname,timeout)
