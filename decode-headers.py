@@ -19,7 +19,7 @@ class DecodeHeaders(Milter.Base):
         syslog.syslog("----")
         syslog.syslog(repr(type(name)))
         syslog.syslog(name)
-        syslog.syslog(repr(type(hval))
+        syslog.syslog(repr(type(hval)))
         syslog.syslog(hval)
         return Milter.CONTINUE
 
