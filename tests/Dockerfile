@@ -24,4 +24,5 @@ RUN set -x && \
     echo "localdelivery /output/mail" > /etc/postfix/local_aliases/aliases && \
     echo "smtpd_milters = inet:127.0.0.1:8899" >> /etc/postfix/main.cf
 
-CMD [ "/run_tests.sh" ]
+# CMD [ "/run_tests.sh" ]
+CMD [ "bash" ]
