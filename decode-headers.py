@@ -8,26 +8,33 @@ from email.header import decode_header
 class DecodeHeaders(Milter.Base):
 
     def __init__(self):  # A new instance with each new connection.
+
         self.id = Milter.uniqueID()  # Integer incremented with each call.
+        self.message_id = "unknown"
 
     def connect(self, IPname, family, hostaddr):
-        syslog.syslog("connect from %s at %s" % (IPname, hostaddr))
+
+        syslog.syslog("[%s] connect from %s at %s" % (self.id, IPname, hostaddr))
         self.headers = list()
+        
         return Milter.CONTINUE
 
     def header(self, name, hval):
+
+        if name == "Message-Id":
+            self.message_id = hval
 
         if name in ('From', 'Subject'):
             x = decode_header(hval)
             if x[0][1]:
                 try:
-                    syslog.syslog("decoding header %s" % (name))
+                    syslog.syslog("[%s] decoding header %s" % (self.id, name))
                     new_header = "X-Decoded-%s" % (name)
                     self.headers.append((new_header, x[0][0].decode(x[0][1])))
                     new_header = "X-Decoded-%s-Encoding" % (name)
                     self.headers.append((new_header, x[0][1]))
                 except Exception as e:
-                    syslog.syslog('Error: %s' % (e))
+                    syslog.syslog('[%s] error with message_id %s: %s' % (self.id, self.message_id, e))
 
         return Milter.CONTINUE
 
@@ -36,7 +43,7 @@ class DecodeHeaders(Milter.Base):
             try:
                 self.addheader(x[0], x[1])
             except Exception as e:
-                    syslog.syslog('Error: %s' % (e))
+                    syslog.syslog('[%s] error with message_id %s: %s' % (self.id, self.message_id, e))
         
         return Milter.ACCEPT
 
