@@ -50,7 +50,7 @@ def main():
 
     # todo: use argparse
     # todo: better logging to stdout
-    socketname = "inet:8899@127.0.0.1"
+    socketname = "inet:8899@0.0.0.0"
     timeout = 600
 
     Milter.factory = DecodeHeaders
