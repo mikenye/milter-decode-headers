@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+set -eo pipefail
+
+# Wait for syslog to start
+s6-svwait -U /run/s6/services/syslogd
+
+/usr/bin/python3 /decode-headers.py 2>&1 | awk -W Interactive '{print "[decode-headers] " $0}'
