@@ -17,6 +17,7 @@ RUN set -x && \
         python3-pip \
         python3-setuptools \
         python3-wheel \
+        socat \
         && \
     pip3 install pymilter && \
     # install s6 overlay
