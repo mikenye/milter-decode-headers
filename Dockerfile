@@ -1,7 +1,5 @@
 FROM debian:stable-slim
 
-COPY decode-headers.py /decode-headers.py
-
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 RUN set -x && \
@@ -36,6 +34,9 @@ RUN set -x && \
     apt-get clean -y && \
     rm -rf /src /tmp/* /var/lib/apt/lists/* && \
     find /var/log -type f -iname "*log" -exec truncate --size 0 {} \;
+
+COPY decode-headers.py /decode-headers.py
+COPY rootfs/ /
 
 ENTRYPOINT [ "/init" ]
 
