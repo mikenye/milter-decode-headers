@@ -11,5 +11,5 @@ fi
 # log dirs & permissions
 mkdir -p /var/log/syslogd
 chown nobody:nogroup /var/log/syslogd
-mkdir -r /var/log/opendkim
-chown nobody:nogroup /var/log/syslogd
+mkdir -p /var/log/decode-headers
+chown nobody:nogroup /var/log/decode-headers
