@@ -24,8 +24,8 @@ jobs:
     
     - name: Install Flake8
       run: |
-        apt-get update
-        apt-get install -y flake8
+        sudo apt-get update
+        sudo apt-get install -y flake8
 
     - name: Run Flake8
       uses: suo/flake8-github-action@v1
