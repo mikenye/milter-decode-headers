@@ -13,3 +13,9 @@ docker buildx use homecluster
 
 # Build latest
 docker buildx build -t "${REPO}/${IMAGE}:latest" --compress --push --platform "${PLATFORMS}" .
+
+# Get version
+VERSION=$(git log | head -1 | tr -s " " "_" | cut -c1-14)
+
+# Build version specific
+docker buildx build -t "${REPO}/${IMAGE}:${VERSION}" --compress --push --platform "${PLATFORMS}" .
