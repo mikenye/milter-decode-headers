@@ -55,16 +55,16 @@ def main():
     parser = argparse.ArgumentParser(description='Decode MIME encoded email headers')
     help_header = "Specify one or more headers that should be decoded (if MIME encoded). "
     help_header = "Case sensitive. Default: 'From' and 'Subject'."
-    parser.add_argument('-h', '--header', type=str, nargs='+', help=help_header, default=['From', 'Subject'])
+    parser.add_argument('-h', '--header', type=str, action='append', nargs='+', help=help_header, default=['From', 'Subject'])
     help_socketspec = "Specifies the socket that should be established by the filter to receive connections from "
     help_socketspec += "Postfix in order to provide service. socketspec is in one of two forms: local:path which "
     help_socketspec += "creates a UNIX domain socket at the specified path, or inet:port[@host] or inet6:port[@host] "
     help_socketspec += "which creates a TCP socket on the specified port using the requested protocol family. "
     help_socketspec += "Default: 'inet:8899@0.0.0.0'."
-    parser.add_argument('-p', '--socketspec', type=str, nargs=1, help=help_socketspec, default="inet:8899:0.0.0.0")
+    parser.add_argument('-p', '--socketspec', type=str, help=help_socketspec, default="inet:8899:0.0.0.0")
     help_timeout = "Sets the number of seconds libmilter will wait for an MTA communication (read or write) before "
     help_timeout += "timing out. Default: 600"
-    parser.add_argument('-t', '--timeout', type=int, nargs=1, help=help_timeout, default=[600])
+    parser.add_argument('-t', '--timeout', type=int, help=help_timeout, default=600)
     args = parser.parse_args()
 
     pprint(args)
@@ -76,7 +76,7 @@ def main():
     Milter.set_flags(Milter.ADDHDRS)
 
     syslog.syslog(syslog.LOG_DEBUG, "")
-    Milter.runmilter("decodeheaders", args.socketspec, args.timeout[0])
+    Milter.runmilter("decodeheaders", args.socketspec, args.timeout)
     syslog.syslog("shutdown")
 
 
