@@ -3,6 +3,7 @@
 import os
 import syslog
 import argparse
+import pickle
 import Milter
 from email.header import decode_header
 from pprint import pprint
