@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import syslog
 import argparse
@@ -69,12 +69,13 @@ def main():
 
     pprint(args)
 
-    syslog.syslog(syslog.LOG_DEBUG, "Started with command line arguments: %" % (repr(args)))
+    syslog.syslog(syslog.LOG_INFO, "Starting")
+    syslog.syslog(syslog.LOG_DEBUG, "Command line arguments: %" % (repr(args)))
 
     Milter.factory = DecodeHeaders
     Milter.set_flags(Milter.ADDHDRS)
 
-    syslog.syslog("decodeheaders startup")
+    syslog.syslog(syslog.LOG_DEBUG, "")
     Milter.runmilter("decodeheaders", args.socketspec, args.timeout)
     syslog.syslog("shutdown")
 
