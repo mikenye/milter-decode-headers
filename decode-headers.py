@@ -55,7 +55,7 @@ def main():
     parser = argparse.ArgumentParser(description='Decode MIME encoded email headers')
     help_header = "Specify one or more headers that should be decoded (if MIME encoded). "
     help_header = "Case sensitive. Default: 'From' and 'Subject'."
-    parser.add_argument('--header', type=str, action='append', help=help_header)
+    parser.add_argument('--header', type=str, action='append', help=help_header, default=['From', 'Subject'])
     help_socketspec = "Specifies the socket that should be established by the filter to receive connections from "
     help_socketspec += "Postfix in order to provide service. socketspec is in one of two forms: local:path which "
     help_socketspec += "creates a UNIX domain socket at the specified path, or inet:port[@host] or inet6:port[@host] "
