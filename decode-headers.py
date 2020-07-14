@@ -33,11 +33,13 @@ class DecodeHeaders(Milter.Base):
             if x[0][1]:
                 try:
                     new_header = "X-Decoded-%s" % (name)
-                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s" % (self.id, repr(new_header)))
-                    self.headers.append((new_header, x[0][0].decode(x[0][1])))
+                    new_value = x[0][0].decode(x[0][1])
+                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s: %s" % (self.id, repr(new_header), repr(new_value)))
+                    self.headers.append((new_header, new_value))
                     new_header = "X-Decoded-%s-Encoding" % (name)
-                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s" % (self.id, repr(new_header)))
-                    self.headers.append((new_header, x[0][1]))
+                    new_value = x[0][1]
+                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s: %s" % (self.id, repr(new_header), repr(new_value)))
+                    self.headers.append((new_header, new_value))
                 except Exception as e:
                     syslog.syslog(syslog.LOG_ERR, '[%s] error with message_id %s: %s' % (self.id, self.message_id, e))
 
