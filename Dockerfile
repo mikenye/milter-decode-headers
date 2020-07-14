@@ -1,6 +1,7 @@
 FROM debian:stable-slim
 
-ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+ENV DECODE_HEADERS="From,Subject" \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 RUN set -x && \
     apt-get update && \
