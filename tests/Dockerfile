@@ -8,6 +8,8 @@ COPY tests/run_tests.sh /run_tests.sh
 COPY tests/milter_service_run /etc/services.d/decode-headers/run
 COPY tests/milter_service_finish /etc/services.d/decode-headers/finish
 
+ENV SYSLOG_PRIORITY=8
+
 RUN set -x && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
