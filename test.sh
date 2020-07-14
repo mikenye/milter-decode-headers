@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
+docker pull mikenye/postfix:development
 docker build -t milter-decode-headers-test -f tests/Dockerfile .
 
 docker run \

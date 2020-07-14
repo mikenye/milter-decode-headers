@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# shellcheck shell=bash
+
+# shut the container down if this service exits for any reason
+s6-svscanctl -t /var/run/s6/services

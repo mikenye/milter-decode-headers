@@ -1,6 +1,9 @@
 FROM debian:stable-slim
 
-ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+ENV DECODE_HEADERS="From,Subject" \
+    MILTER_TIMEOUT=600 \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    SYSLOG_PRIORITY=6
 
 RUN set -x && \
     apt-get update && \
