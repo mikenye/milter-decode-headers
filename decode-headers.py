@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import syslog
 import argparse
 import Milter
@@ -12,31 +13,37 @@ class DecodeHeaders(Milter.Base):
     def __init__(self):  # A new instance with each new connection.
         self.id = Milter.uniqueID()  # Integer incremented with each call.
         self.message_id = "unknown"
+        self.headers_to_decode = pickle.loads(os.environ["HEADERS-TO-DECODE-PICKLE"])
+        syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.__init__: will decode headers: %s" % (self.id, repr(self.headers_to_decode)))
 
     def connect(self, IPname, family, hostaddr):
+        syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.connect: %s, %s, %s" % (self.id, repr(IPname), repr(family), repr(hostaddr)))
         self.headers = list()
         return Milter.CONTINUE
 
     def header(self, name, hval):
+        syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: %s, %s" % (self.id, repr(name), repr(hval)))
 
         if name == "Message-Id":
             self.message_id = hval
 
-        if name in ('From', 'Subject'):
+        if name in self.headers_to_decode:
             x = decode_header(hval)
             if x[0][1]:
                 try:
                     new_header = "X-Decoded-%s" % (name)
+                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s" % (self.id, repr(new_header)))
                     self.headers.append((new_header, x[0][0].decode(x[0][1])))
                     new_header = "X-Decoded-%s-Encoding" % (name)
+                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s" % (self.id, repr(new_header)))
                     self.headers.append((new_header, x[0][1]))
                 except Exception as e:
-                    syslog.syslog('[%s] error with message_id %s: %s' % (self.id, self.message_id, e))
+                    syslog.syslog(syslog.LOG_ERR, '[%s] error with message_id %s: %s' % (self.id, self.message_id, e))
 
         return Milter.CONTINUE
 
     def eom(self):
-
+        syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.eom: called" % (self.id))
         for x in self.headers:
             try:
                 syslog.syslog("[%s] %s: wrote header '%s'" % (self.id, self.message_id, x[0]))
@@ -67,16 +74,20 @@ def main():
     parser.add_argument('--timeout', type=int, help=help_timeout, default=600)
     args = parser.parse_args()
 
-    pprint(args)
+    syslog.syslog(syslog.LOG_INFO, "starting")
+    syslog.syslog(syslog.LOG_DEBUG, "command line arguments: %s" % (repr(args)))
 
-    syslog.syslog(syslog.LOG_INFO, "Starting")
-    syslog.syslog(syslog.LOG_DEBUG, "Command line arguments: %s" % (repr(args)))
+    # Set environment variable for what to decode
+    headers_to_decode = list(set(args.header))
+    os.environ["HEADERS-TO-DECODE-PICKLE"] = pickle.dumps(headers_to_decode)
 
+    # Start milter
     Milter.factory = DecodeHeaders
     Milter.set_flags(Milter.ADDHDRS)
-
-    syslog.syslog(syslog.LOG_DEBUG, "")
+    syslog.syslog(syslog.LOG_DEBUG, "running milter")
     Milter.runmilter("decodeheaders", args.socketspec, args.timeout)
+
+    # Finished
     syslog.syslog("shutdown")
 
 
