@@ -70,7 +70,7 @@ def main():
     pprint(args)
 
     syslog.syslog(syslog.LOG_INFO, "Starting")
-    syslog.syslog(syslog.LOG_DEBUG, "Command line arguments: %" % (repr(args)))
+    syslog.syslog(syslog.LOG_DEBUG, "Command line arguments: %s" % (repr(args)))
 
     Milter.factory = DecodeHeaders
     Milter.set_flags(Milter.ADDHDRS)
