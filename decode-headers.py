@@ -14,7 +14,7 @@ class DecodeHeaders(Milter.Base):
     def __init__(self):  # A new instance with each new connection.
         self.id = Milter.uniqueID()  # Integer incremented with each call.
         self.message_id = "unknown"
-        self.headers_to_decode = pickle.loads(os.environ["HEADERS-TO-DECODE-PICKLE"])
+        self.headers_to_decode = pickle.loads(os.environ["HEADERS-TO-DECODE-PICKLE"].encode())
         syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.__init__: will decode headers: %s" % (self.id, repr(self.headers_to_decode)))
 
     def connect(self, IPname, family, hostaddr):
@@ -80,7 +80,7 @@ def main():
 
     # Set environment variable for what to decode
     headers_to_decode = list(set(args.header))
-    os.environ["HEADERS-TO-DECODE-PICKLE"] = pickle.dumps(headers_to_decode)
+    os.environ["HEADERS-TO-DECODE-PICKLE"] = pickle.dumps(headers_to_decode, 0).decode()
 
     # Start milter
     Milter.factory = DecodeHeaders
