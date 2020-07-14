@@ -59,7 +59,7 @@ Once the container is up and running, you can add `inet:<docker_host>:8899` to y
 
 | Environment Variable | Details |
 |-----|-----|
-| `DECODE_HEADERS`  | Optional. Headers to decode (if encoded). Comma separated list (no spaces). Default: `From,Subject`. |
+| `DECODE_HEADERS`  | Optional. Headers to decode (if encoded). Comma separated list (no spaces). Case sensitive. Default: `From,Subject`. |
 | `MILTER_TIMEOUT`  | Optional. Sets the number of seconds libmilter will wait for an MTA communication (read or write) before timing out. Default: `600`. |
 | `SYSLOG_PRIORITY` | Optional. Log only messages more urgent than `SYSLOG_PRIORITY`. `1` = Alert, `2` = Critical, `3` = Error, `4` = Warning, `5` = Notice, `6` = Info (the default), `7` = Debug. |
 | `TZ`              | Recommended. Set the timezone for the container. Default is `UTC`. |
