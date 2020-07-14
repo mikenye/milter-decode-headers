@@ -3,4 +3,10 @@
 
 set -eo pipefail
 
-/decode-headers.py 2>&1 | awk -W Interactive '{print "[decode-headers] " $0}'
+/decode-headers.py \
+    --header "Subject" \
+    --header "From" \
+    --header "X-SomethingElse" \
+    --socketspec "inet:8899:127.0.0.1" \
+    --timeout 300 \
+    2>&1 | awk -W Interactive '{print "[decode-headers] " $0}'
