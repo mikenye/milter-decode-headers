@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# shellcheck shell=bash
+
+# shut the container down if this service exits for any reason
+exit 125

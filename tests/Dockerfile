@@ -1,10 +1,12 @@
 FROM mikenye/postfix
 
 COPY decode-headers.py /decode-headers.py
+COPY requirements.txt /tmp/requirements.txt
 COPY tests/test_milter_normal.expect /test_milter_normal.expect
 COPY tests/test_milter_encoded.expect /test_milter_encoded.expect
 COPY tests/run_tests.sh /run_tests.sh
 COPY tests/milter_service_run /etc/services.d/decode-headers/run
+COPY tests/milter_service_finish /etc/services.d/decode-headers/finish
 
 RUN set -x && \
     apt-get update && \
@@ -20,7 +22,7 @@ RUN set -x && \
         python3-wheel \
         telnet \
         && \
-    pip3 install pymilter && \
+    pip3 install -r /tmp/requirements.txt && \
     mkdir -p /etc/postfix/local_aliases && \
     mkdir -p /output && \
     chmod a+w /output && \
