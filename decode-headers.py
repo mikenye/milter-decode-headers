@@ -6,7 +6,6 @@ import argparse
 import pickle
 import Milter
 from email.header import decode_header
-from pprint import pprint
 
 
 class DecodeHeaders(Milter.Base):
@@ -15,10 +14,16 @@ class DecodeHeaders(Milter.Base):
         self.id = Milter.uniqueID()  # Integer incremented with each call.
         self.message_id = "unknown"
         self.headers_to_decode = pickle.loads(os.environ["HEADERS-TO-DECODE-PICKLE"].encode())
-        syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.__init__: will decode headers: %s" % (self.id, repr(self.headers_to_decode)))
+        syslog.syslog(
+            syslog.LOG_DEBUG,
+            "[%s] DecodeHeaders.__init__: will decode headers: %s" % (self.id, repr(self.headers_to_decode))
+            )
 
     def connect(self, IPname, family, hostaddr):
-        syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.connect: %s, %s, %s" % (self.id, repr(IPname), repr(family), repr(hostaddr)))
+        syslog.syslog(
+            syslog.LOG_DEBUG,
+            "[%s] DecodeHeaders.connect: %s, %s, %s" % (self.id, repr(IPname), repr(family), repr(hostaddr))
+            )
         self.headers = list()
         return Milter.CONTINUE
 
@@ -34,11 +39,21 @@ class DecodeHeaders(Milter.Base):
                 try:
                     new_header = "X-Decoded-%s" % (name)
                     new_value = x[0][0].decode(x[0][1])
-                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s: %s" % (self.id, repr(new_header), repr(new_value)))
+                    syslog.syslog(
+                        syslog.LOG_DEBUG,
+                        "[%s] DecodeHeaders.header: will add header: %s: %s" % (
+                            self.id, repr(new_header), repr(new_value)
+                            )
+                        )
                     self.headers.append((new_header, new_value))
                     new_header = "X-Decoded-%s-Encoding" % (name)
                     new_value = x[0][1]
-                    syslog.syslog(syslog.LOG_DEBUG, "[%s] DecodeHeaders.header: will add header: %s: %s" % (self.id, repr(new_header), repr(new_value)))
+                    syslog.syslog(
+                        syslog.LOG_DEBUG,
+                        "[%s] DecodeHeaders.header: will add header: %s: %s" % (
+                            self.id, repr(new_header), repr(new_value)
+                            )
+                        )
                     self.headers.append((new_header, new_value))
                 except Exception as e:
                     syslog.syslog(syslog.LOG_ERR, '[%s] error with message_id %s: %s' % (self.id, self.message_id, e))
