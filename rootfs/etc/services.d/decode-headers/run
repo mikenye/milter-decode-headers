@@ -9,8 +9,8 @@ s6-svwait -U /run/s6/services/syslogd
 # Prepare command line for /decode-headers.py
 DECODE_HEADERS_BIN="/decode-headers.py"
 DECODE_HEADERS_CMD=(--socketspec inet:8899@0.0.0.0)
-DECODE_HEADERS_CMD+=(--timeout $MILTER_TIMEOUT)
-headers=$(echo $DECODE_HEADERS | tr -d " " | tr "," "\n")
+DECODE_HEADERS_CMD+=(--timeout "$MILTER_TIMEOUT")
+headers=$(echo "$DECODE_HEADERS" | tr -d " " | tr "," "\n")
 for header in headers
 do
     DECODE_HEADERS_CMD+=(--header "$header")
