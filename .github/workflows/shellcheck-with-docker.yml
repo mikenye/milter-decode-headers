@@ -1,0 +1,31 @@
+name: Shellcheck (via Docker)
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Pull Shellcheck Image
+      run: docker pull koalaman/shellcheck:stable
+    - name: Run Shellcheck against shell scripts
+      run: |
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./buildx.sh
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./test.sh
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./tests/run_tests.sh
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./tests/milter_service_run
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./tests/milter_service_finish
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./rootfs/etc/cont-init.d/*
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./rootfs/etc/services.d/decode-headers/run
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./rootfs/etc/services.d/decode-headers/log/run
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./rootfs/etc/services.d/syslogd/run
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./rootfs/etc/services.d/syslogd/log/run
+        docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ./rootfs/usr/local/bin/check_syslog.sh
