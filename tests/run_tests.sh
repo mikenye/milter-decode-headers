@@ -8,6 +8,8 @@ NOCOLOR='\033[0m'
 
 EXITCODE=0
 
+set -x
+
 echo -e "${LIGHTBLUE}Waiting for postfix to become ready...${NOCOLOR}"
 sleep 10
 
@@ -23,8 +25,8 @@ echo -e "${LIGHTBLUE}Send test email without subject encoding...${NOCOLOR}"
 /test_milter_normal.expect 127.0.0.1 25 test nobody@nowhere localdelivery@testserver > /dev/null 2>&1
 sleep 10
 
-alias CHECK_NOT_ENCODED="grep 'Subject: Test email normal' /output/mail > /dev/null 2>&1"
-if CHECK_NOT_ENCODED; then
+# Check to make sure the normal email passed through the milter
+if grep 'Subject: Test email normal' /output/mail > /dev/null 2>&1; then
     echo -e "${LIGHTGREEN}PASSED normal email${NOCOLOR}"
 else
     echo -e "${LIGHTRED}FAILED normal email${NOCOLOR}"
@@ -37,8 +39,8 @@ echo -e "${LIGHTBLUE}Send test email with subject encoding...${NOCOLOR}"
 /test_milter_encoded.expect 127.0.0.1 25 test nobody@nowhere localdelivery@testserver > /dev/null 2>&1
 sleep 10
 
-alias CHECK_ENCODED="grep -e 'X-Decoded-Subject: This is a utf-8 base64 encoded subject' -e 'X-Decoded-Subject-Encoding: utf-8' /output/mail > /dev/null 2>&1"
-if CHECK_ENCODED; then
+# Check to make sure the encoded header email was decoded by the milter
+if grep -e 'X-Decoded-Subject: This is a utf-8 base64 encoded subject' -e 'X-Decoded-Subject-Encoding: utf-8' /output/mail > /dev/null 2>&1; then
     echo -e "${LIGHTGREEN}PASSED encoded email${NOCOLOR}"
 else
     echo -e "${LIGHTRED}FAILED encoded email${NOCOLOR}"
