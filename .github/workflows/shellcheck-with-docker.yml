@@ -1,4 +1,4 @@
-name: Test functionality in Docker
+name: Shellcheck (via Docker)
 
 on:
   push:
