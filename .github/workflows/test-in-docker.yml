@@ -14,8 +14,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build & run the test Docker image
+    - name: Build the test Docker image
       run: |
         docker pull mikenye/postfix:development
-        docker build -t mikenye/milter-decode-headers-test:$(date +%s) -f tests/Dockerfile .
-        docker run --rm --name milter-decode-headers-test -e POSTMASTER_EMAIL=postmaster@testserver -e POSTFIX_INET_PROTOCOLS=ipv4 -e POSTFIX_MYHOSTNAME=testserver -e POSTFIX_REJECT_INVALID_HELO_HOSTNAME=false -e POSTFIX_REJECT_NON_FQDN_HELO_HOSTNAME=false -e POSTFIX_REJECT_UNKNOWN_HELO_HOSTNAME=false -e POSTFIX_SMTPUTF8_ENABLE=true mikenye/milter-decode-headers-test:$(date +%s)
+        docker build --no-cache -t mikenye/milter-decode-headers-test -f tests/Dockerfile .
+    - name: Run test Docker image
+      run: |
+        docker run --rm --name milter-decode-headers-test -e POSTMASTER_EMAIL=postmaster@testserver -e POSTFIX_INET_PROTOCOLS=ipv4 -e POSTFIX_MYHOSTNAME=testserver -e POSTFIX_REJECT_INVALID_HELO_HOSTNAME=false -e POSTFIX_REJECT_NON_FQDN_HELO_HOSTNAME=false -e POSTFIX_REJECT_UNKNOWN_HELO_HOSTNAME=false -e POSTFIX_SMTPUTF8_ENABLE=true mikenye/milter-decode-headers-test
